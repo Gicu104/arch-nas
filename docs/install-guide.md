@@ -37,10 +37,10 @@ You can use tools like `cfdisk` or `parted` to manually partition the disk.
 ### Step 3: Transfer Setup Files
 
 Clone this repository or copy the setup files to the target system:
-
+```
 git clone https://github.com/Gicu104/arch-nas.git
 cd arch-nas/setup/
-
+```
 
 Or use a USB stick or `scp` if you prefer.
 
@@ -48,7 +48,7 @@ Or use a USB stick or `scp` if you prefer.
 
 From within the live Arch environment:
 
-```bash
+```
 bash arch-setup.sh config.conf
 ```
 
@@ -63,7 +63,7 @@ The script will:
 ### Step 5: Reboot and SSH in
 
 Once done, reboot the machine and connect to it via SSH using the static IP defined in `config.conf`.
-```bash
+```
 reboot
 ```
 
@@ -75,7 +75,7 @@ reboot
 - All sensitive tasks (disk formatting, password setup, etc.) should be done manually for now.
 
 ## Step 6: Install Syncthing nad Tailscale
-```bash
+```
 sudo pacman -S syncthing
 sudo systemctl enable syncthing
 ```
