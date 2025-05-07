@@ -1,13 +1,56 @@
 *.tar
-*.tar.*
-*.jar
-*.exe
-*.msi
-*.zip
-*.tgz
-*.log
-*.log.*
-*.sig
+# === OS crap ===
+*.swp
+*.bak
+*.tmp
+.DS_Store
+Thumbs.db
 
-pkg/
-src/
+# === System-specific ===
+/etc/*
+!/etc/hostname
+!/etc/hosts
+!/etc/fstab
+
+# === SSH / Secrets / Keys ===
+*.pem
+*.key
+*.crt
+*.asc
+*.gpg
+*.age
+*.enc
+*.secret
+*.env
+secrets/
+id_*
+
+# === Syncthing ===
+.syncthing/*
+
+# === Logs & Caches ===
+*.log
+*.cache
+*.pid
+*.sock
+
+# === Systemd override folders ===
+/etc/systemd/system/*.d/
+
+# === Python/Rust/Node envs (if used later) ===
+__pycache__/
+*.pyc
+.env/
+venv/
+node_modules/
+target/
+
+# === Git ===
+*.orig
+*.rej
+
+# === Custom ===
+backup/
+private-configs/
+tailscale-authkey.txt
+mobius-keys.json
