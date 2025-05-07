@@ -60,11 +60,24 @@ if [[ -f "$SSH_KEY_PATH" ]]; then
     chmod 700 "/home/$USERNAME/.ssh"
     chmod 600 "/home/$USERNAME/.ssh/authorized_keys"
 fi
-
-# Set up mount point (UUID must be filled in later)
+# Format and mount HDD if UUID is specified and not yet in fstab
 if [[ -n "$HDD_UUID" ]]; then
-    mkdir -p /mnt/data
-    echo "UUID=$HDD_UUID /mnt/data ext4 defaults,noatime 0 2" >> /etc/fstab
-fi
+    # Find device by UUID
+    HDD_DEV=$(blkid -U "$HDD_UUID" || true)
+    
+    if [[ -n "$HDD_DEV" ]]; then
+        # Check if it's already in fstab
+        if ! grep -q "$HDD_UUID" /etc/fstab; then
+            echo "Formatting $HDD_DEV as ext4..."
+            mkfs.ext4 -F "$HDD_DEV"
+
+            echo "Mounting $HDD_DEV to /mnt/data..."
+            mkdir -p /mnt/data
+            echo "UUID=$HDD_UUID /mnt/data ext4 defaults,noatime 0 2" >> /etc/fstab
+            mount /mnt/data
+        fi
+    else
+        echo "Warning: HDD with UUID=$HDD_UUID not found. Skipping HDD setup."
+    fi
 
 echo "Basic system setup completed. Reboot when ready."
