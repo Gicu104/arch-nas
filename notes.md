@@ -24,8 +24,9 @@ gpt if prompted
 
 set [type]
 
-Linux swap	~512MB–1GB	(swap)	swap	Optional if low RAM, this is mmcblk0p1
-Linux root	rest of disk	/	ext4	Main root partition, this is mmcblk0p2
+Linux efi system	~512MB–1GB	(swap)	swap	Optional if low RAM, this is mmcblk0p1
+Linux swap	      ~512MB–1GB	(swap)	swap	Optional if low RAM, this is mmcblk0p2
+Linux filesystem	rest of disk	/	ext4	Main root partition, this is mmcblk0p3
 
 ### [WRITE] after everything done before leaving cfdisk
 
@@ -34,12 +35,15 @@ and
 cfdisk /dev/sdb
 ```
 ```
-mkfs.ext4 /dev/mmcblk0p2
-mkswap /dev/mmcblk0p1 && swapon /dev/mmcblk0p1
-
+mkfs.fat -F32 /dev/mmcblk0p1
+mkswap /dev/mmcblk0p2
+swapon /dev/mmcblk0p2
+mkfs.ext4 /dev/mmcblk0p3
 ```
 ```
-mount /dev/mmcblk0p2 /mnt
+mount /dev/mmcblk0p3 /mnt
+mkdir /mnt/boot
+mount /dev/mmcblk0p1 /mnt/boot
 ```
 ### now important
 ```
