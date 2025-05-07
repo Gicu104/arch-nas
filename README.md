@@ -1,7 +1,7 @@
 # arch-nas  
 Personal Arch Linux NAS + Syncthing Homelab
 
-## ?? Arch Linux Homelab
+## Arch Linux Homelab
 
 Welcome to my personal NAS / cloud-replacement homelab powered by Arch Linux, Dell Wyse 3040, Syncthing, and Tailscale.
 
@@ -9,7 +9,7 @@ This project is meant to replace cloud services like OneDrive or Google One by u
 
 ---
 
-## ?? Goals
+## Goals
 
 - Replace OneDrive / Google One with private storage
 - Automatic phone + PC file sync
@@ -20,7 +20,7 @@ This project is meant to replace cloud services like OneDrive or Google One by u
 
 ---
 
-## ?? Stack
+## Stack
 
 - **Arch Linux** (minimal CLI-based setup)
 - **Syncthing** (device-to-device sync)
@@ -30,7 +30,7 @@ This project is meant to replace cloud services like OneDrive or Google One by u
 
 ---
 
-## ?? Project Structure
+## Project Structure
 
 - `setup/`
   - `arch-setup.sh`: Main install + config script
@@ -45,7 +45,7 @@ This project is meant to replace cloud services like OneDrive or Google One by u
 
 ---
 
-## ?? Documentation
+## Documentation
 
 - **[Install Guide](docs/install-guide.md)** - Install Arch Linux and bootstrap NAS config
 - **[Disk Layout](docs/disk-layout.md)** - Mountpoints and storage scheme
@@ -55,7 +55,7 @@ This project is meant to replace cloud services like OneDrive or Google One by u
 
 ---
 
-## ?? Status
+## Status
 
 This project is in version **1.0** - installation is tested and working, documentation ongoing.
 
@@ -67,12 +67,12 @@ Planned next steps:
 
 ---
 
-## ?? Disclaimer
+##  Disclaimer
 
 This setup is designed for personal use. You're welcome to copy, modify, or fork - but do your own testing. I take no responsibility if it bricks your toaster.
 
 ---
 
-## ?? License
+## License
 
 MIT - free to use, share, and adapt.
