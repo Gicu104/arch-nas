@@ -30,7 +30,7 @@ mkfs.ext4 /dev/mmcblk0p1
 ```
 mount /dev/mmcblk0 /mnt
 ```
-downlload install script
+downlload install script if public or token in hand
 ```
 pacman -Sy git
 git clone https://github.com/Gicu104/arch-nas.git
