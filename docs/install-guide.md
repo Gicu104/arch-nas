@@ -25,6 +25,28 @@ Install and configure dhcpcd or NetworkManager for networking.
 sudo pacman -S networkmanager
 sudo systemctl enable NetworkManager
 
+##OPTIONAL - Going Headless (No Monitor/Keyboard Needed)
+Once the following steps are complete, you can safely unplug the monitor and keyboard and manage your Wyse server entirely over SSH:
+Arch Linux is installed
+Base system + bootloader
+Non-root user created
+Networking is functional
+Internet access confirmed via ping
+DHCP or static IP assigned
+SSH is set up and running
+
+sudo pacman -S openssh
+sudo systemctl enable sshd
+sudo systemctl start sshd
+
+SSH access from another device is confirmed
+
+From your PC: ssh your-user@<wyse-ip>
+Once confirmed, you can:
+Disconnect monitor and keyboard
+Manage the Wyse via SSH
+Proceed with full headless configuration
+
 ##Step 4: Install Syncthing
 sudo pacman -S syncthing
 sudo systemctl enable syncthing
