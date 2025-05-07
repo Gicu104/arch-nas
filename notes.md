@@ -24,3 +24,6 @@ and
 ```
 cfdisk /dev/sdb
 ```
+```
+mkfs.ext4 /dev/mmcblk0p1
+```
