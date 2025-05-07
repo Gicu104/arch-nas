@@ -27,3 +27,13 @@ cfdisk /dev/sdb
 ```
 mkfs.ext4 /dev/mmcblk0p1
 ```
+```
+mount /dev/mmcblk0 /mnt
+```
+downlload install script
+```
+pacman -Sy git
+git clone https://github.com/Gicu104/arch-nas.git
+cd arch-nas/setup/
+bash arch-setup.sh config.conf
+```
