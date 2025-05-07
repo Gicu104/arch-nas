@@ -25,7 +25,9 @@ gpt if prompted
 set [type]
 
 Linux efi system	~512MB–1GB	(swap)	swap	Optional if low RAM, this is mmcblk0p1
+
 Linux swap	      ~512MB–1GB	(swap)	swap	Optional if low RAM, this is mmcblk0p2
+
 Linux filesystem	rest of disk	/	ext4	Main root partition, this is mmcblk0p3
 
 ### [WRITE] after everything done before leaving cfdisk
@@ -35,6 +37,7 @@ and
 cfdisk /dev/sdb
 ```
 ```
+partprobe /dev/mmcblk0
 mkfs.fat -F32 /dev/mmcblk0p1
 mkswap /dev/mmcblk0p2
 swapon /dev/mmcblk0p2
