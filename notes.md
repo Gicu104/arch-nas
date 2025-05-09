@@ -24,11 +24,11 @@ gpt if prompted
 
 set [type]
 
-Linux efi system	~512MB–1GB	(swap)	swap	Optional if low RAM, this is mmcblk0p1
+Linux efi system	~512MB–1GB	(swap)	efi	Optional if low RAM, this is mmcblk0p1
 
 Linux swap	      ~512MB–1GB	(swap)	swap	Optional if low RAM, this is mmcblk0p2
 
-Linux filesystem	rest of disk	/	ext4	Main root partition, this is mmcblk0p3
+Linux filesystem	rest of disk	/	root / 64	Main root partition, this is mmcblk0p3
 
 ### [WRITE] after everything done before leaving cfdisk
 
@@ -38,15 +38,14 @@ cfdisk /dev/sdb
 ```
 ```
 partprobe /dev/mmcblk0
-mkfs.fat -F32 /dev/mmcblk0p1
+mkfs.fat /dev/mmcblk0p1
 mkswap /dev/mmcblk0p2
 swapon /dev/mmcblk0p2
 mkfs.ext4 /dev/mmcblk0p3
 ```
 ```
 mount /dev/mmcblk0p3 /mnt
-mkdir /mnt/boot
-mount /dev/mmcblk0p1 /mnt/boot
+mount --mkdir /dev/mmcblk0p1 /mnt/boot
 ```
 ### now important
 ```
@@ -67,7 +66,71 @@ bash arch-setup.sh config.conf
 exit
 umount -R /mnt
 ```
+grub was correct
 ```
 reboot
 ```
-## post install sanity check
+### New instalation
+ I reinstalled it for sake
+
+Boot from liveiso
+check internet connection 
+```
+loadkeys pl
+timedatectl set-ntp true
+lsblk
+```
+look for your flash disk, propably mmcblk0
+```
+cfdisk /dev/mmcblk0
+```
+- wipe everything and make 3 partitions
+- 512M [TYPE] EFI system
+- 512M [TYPE] Linux swap
+- rest [TYPE] Linux root (x86-64)
+- [WRITE] 'yes' to save changes
+- [QUIT]
+
+format partitions
+```
+partprobe /dev/mmcblk0
+mkfs.fat /dev/mmcblk0p1
+mkswap /dev/mmcblk0p2
+mkfs.ext4 /dev/mmcblk0p3
+```
+mount partitions
+```
+swapon /dev/mmcblk0p2
+mount /dev/mmcblk0p3 /mnt
+mount --mkdir /dev/mmcblk0p1 /mnt/boot
+```
+now you can check lsblk
+```
+pacstrap -K /mnt base linux linux-firmware
+genfstab -U /mnt >> /mnt/etc/fstab
+arch-chroot /mnt
+```
+now you are in your system, change password and install bootloader
+```
+passwd
+```
+if boot not mounted 
+```
+mount /dev/mmcblk0p1 /boot
+```
+```
+pacman -S grub efibootmgr
+grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
+grub-mkconfig -o /boot/grub/grub.cfg
+mkdir -p /boot/EFI/BOOT
+cp /boot/EFI/GRUB/grubx64.efi /boot/EFI/BOOT/BOOTX64.EFI
+efibootmgr --create --disk /dev/mmcblk0 --part 1 --label "ArchLinux" --loader /EFI/GRUB/grubx64.efi
+exit
+```
+```
+umount -R /mnt
+```
+pray for best
+```
+reboot
+```
