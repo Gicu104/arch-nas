@@ -90,7 +90,7 @@ Check if EFI returns `64`
 ```
 cat /sys/firmware/efi/fw_platform_size
 ```
-If so you can install with code below
+If so you can install with code below, .cfg is generated twice bc id didnt reboot
 ```
 pacman -S grub efibootmgr
 grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
@@ -98,6 +98,8 @@ grub-mkconfig -o /boot/grub/grub.cfg
 mkdir -p /boot/EFI/BOOT
 cp /boot/EFI/GRUB/grubx64.efi /boot/EFI/BOOT/BOOTX64.EFI
 efibootmgr --create --disk /dev/mmcblk0 --part 1 --label "ArchLinux" --loader /EFI/GRUB/grubx64.efi
+sed -i 's/^GRUB_CMDLINE_LINUX_DEFAULT=.*/GRUB_CMDLINE_LINUX_DEFAULT="loglevel=3 quiet reboot=pci"/' /etc/default/grub
+grub-mkconfig -o /boot/grub/grub.cfg
 ```
 ### Set root password or you will suffer
 ```
