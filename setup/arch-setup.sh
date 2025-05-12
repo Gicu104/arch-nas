@@ -43,7 +43,7 @@ if [[ "$USE_STATIC_IP" == "yes" ]]; then
 [connection]
 id=static
 type=ethernet
-interface-name=eth0
+interface-name=enp1s0
 autoconnect=true
 
 [ipv4]
