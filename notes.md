@@ -39,13 +39,11 @@ cfdisk /dev/sdb
 ```
 partprobe /dev/mmcblk0
 mkfs.fat /dev/mmcblk0p1
-mkswap /dev/mmcblk0p2
-swapon /dev/mmcblk0p2
 mkfs.ext4 /dev/mmcblk0p3
-```
-```
+mkswap /dev/mmcblk0p2
 mount /dev/mmcblk0p3 /mnt
 mount --mkdir /dev/mmcblk0p1 /mnt/boot
+swapon /dev/mmcblk0p2
 ```
 ### now important
 ```
