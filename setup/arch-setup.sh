@@ -12,7 +12,11 @@ echo "127.0.1.1 $HOSTNAME.localdomain $HOSTNAME" >> /etc/hosts
 
 # Create user
 useradd -m -G wheel "$USERNAME"
+echo "Change root password"
+passwd
+echo "Change $USERNAME password"
 passwd "$USERNAME"
+
 
 # Configure sudo
 if [[ "$SETUP_SUDO" == "yes" ]]; then
@@ -79,5 +83,16 @@ if [[ -n "$HDD_UUID" ]]; then
     else
         echo "Warning: HDD with UUID=$HDD_UUID not found. Skipping HDD setup."
     fi
+fi
+
+# Optional: Set up basic firewall with UFW
+if [[ "$SETUP_FIREWALL" == "yes" ]]; then
+    pacman -S --noconfirm ufw
+    ufw default deny incoming
+    ufw default allow outgoing
+    ufw allow OpenSSH  # allow SSH
+    ufw allow 8384     # allow Syncthing web UI if needed
+    ufw enable
+fi
 
 echo "Basic system setup completed. Reboot when ready."
