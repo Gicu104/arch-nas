@@ -45,6 +45,10 @@ Follow the standard installation process documented in [install-guide.md](./inst
 
 *Tip: Keep a bootable USB stick nearby with this repo and key config files.*
 
+
+
+## //this is mess, clean it later
+
 5. Post-Recovery: Syncthing
 Access via http://<NAS-IP>:8384
 
