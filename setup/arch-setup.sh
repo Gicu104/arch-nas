@@ -19,7 +19,7 @@ passwd "$USERNAME"
 
 
 # Install essential packages
-pacman -S --noconfirm sudo nano vim git bash-completion man-db man-pages less
+pacman -S --noconfirm sudo nano git bash-completion man-db man-pages less
 
 # Configure sudo
 if [[ "$SETUP_SUDO" == "yes" ]]; then
