@@ -69,7 +69,7 @@ if [[ -n "$HDD_UUID" ]]; then
     # Find device by UUID
     HDD_DEV=$(blkid -U "$HDD_UUID" || true)
     
-    if [[ -n "$HDD_DEV" ]]; then
+    if [[ "$SETUP_HDD" == "yes" ]]; then
         # Check if it's already in fstab
         if ! grep -q "$HDD_UUID" /etc/fstab; then
             echo "Formatting $HDD_DEV as ext4..."
