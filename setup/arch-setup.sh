@@ -10,12 +10,17 @@ echo "127.0.0.1 localhost" >> /etc/hosts
 echo "::1       localhost" >> /etc/hosts
 echo "127.0.1.1 $HOSTNAME.localdomain $HOSTNAME" >> /etc/hosts
 
-# Create user
-useradd -m -G wheel "$USERNAME"
-echo "Change root password"
-passwd
-echo "Change $USERNAME password"
-passwd "$USERNAME"
+# Create user if not exists
+if id "$USERNAME" &>/dev/null; then
+    echo "User $USERNAME already exists. Skipping creation."
+else
+    useradd -m -G wheel "$USERNAME"
+    echo "Change root password"
+    passwd
+    echo "Change $USERNAME password"
+    passwd "$USERNAME"
+fi
+
 
 
 # Install essential packages
