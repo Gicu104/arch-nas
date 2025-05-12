@@ -99,6 +99,10 @@ mkdir -p /boot/EFI/BOOT
 cp /boot/EFI/GRUB/grubx64.efi /boot/EFI/BOOT/BOOTX64.EFI
 efibootmgr --create --disk /dev/mmcblk0 --part 1 --label "ArchLinux" --loader /EFI/GRUB/grubx64.efi
 ```
+### Set root password or you will suffer
+```
+passwd
+```
 ```
 exit
 ```
