@@ -41,54 +41,10 @@ This document outlines the recovery procedures in case of failure of critical co
 
 ## 4. Reinstall Procedure
 
-### 0. Boot Live ISO and Connect
-- Boot from Arch ISO USB
-- Connect to internet (Wi-Fi or Ethernet)
+Follow the standard installation process documented in [install-guide.md](./install-guide.md). Ensure you're using the latest ISO and that your configuration files are in sync with the repository.
 
-### 1. Partition Internal Storage
+*Tip: Keep a bootable USB stick nearby with this repo and key config files.*
 
-```
-cfdisk /dev/mmcblk0
-# Create:
-# mmcblk0p1 – EFI System Partition (512MB, type EF00)
-# mmcblk0p2 – Linux Swap partition (512MB, type swap)
-# mmcblk0p3 – Root Partition (rest of the space, Linux root / 64)
-```
-2. Format and Mount
-```
-partprobe /dev/mmcblk0
-mkfs.fat /dev/mmcblk0p1
-mkfs.ext4 /dev/mmcblk0p3
-mkswap /dev/mmcblk0p2
-mount /dev/mmcblk0p3 /mnt
-mount --mkdir /dev/mmcblk0p1 /mnt/boot
-swapon /dev/mmcblk0p2
-```
-3. Pacstrap and Chroot
-```
-pacstrap /mnt base linux linux-firmware sudo networkmanager
-genfstab -U /mnt >> /mnt/etc/fstab
-arch-chroot /mnt
-```
-4. Clone Setup Repo and Run
-```
-pacman -Sy git
-git clone https://github.com/Gicu104/arch-nas.git /root/arch-nas
-cd /root/arch-nas/setup
-bash arch-setup.sh config.conf
-```
-5. Install GRUB (UEFI)
-```
-pacman -S grub efibootmgr
-grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
-grub-mkconfig -o /boot/grub/grub.cfg
-```
-6. Exit, Reboot and pray for best 
-```
-exit
-umount -R /mnt
-reboot
-```
 5. Post-Recovery: Syncthing
 Access via http://<NAS-IP>:8384
 
