@@ -18,12 +18,15 @@ echo "Change $USERNAME password"
 passwd "$USERNAME"
 
 
+# Install essential packages
+pacman -S --noconfirm sudo nano vim git bash-completion man-db man-pages less
+
 # Configure sudo
 if [[ "$SETUP_SUDO" == "yes" ]]; then
-    pacman -S --noconfirm sudo
     echo "%wheel ALL=(ALL:ALL) ALL" > /etc/sudoers.d/99_wheel
     chmod 440 /etc/sudoers.d/99_wheel
 fi
+
 
 # Install network tools
 pacman -S --noconfirm networkmanager
