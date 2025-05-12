@@ -1,7 +1,7 @@
 # Disaster Recovery Plan — Arch-NAS Fortress
 
 **Version:** 1.0  
-**Last Reviewed:** [Insert Date]
+**Last Reviewed:** 12/05/2025
 
 This document outlines the recovery procedures in case of failure of critical components in the Arch-NAS system. All steps are tested and tuned for Dell Wyse 3040 running headless Arch Linux.
 
