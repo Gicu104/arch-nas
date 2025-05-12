@@ -136,6 +136,7 @@ The script will:
 - Configure system with a static IP
 - Set up locale, time, and SSH
 - Prepare the system for headless operation
+- Set firewall rules
 
 ### Step 7: Reboot and SSH in
 
