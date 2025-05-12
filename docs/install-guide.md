@@ -6,7 +6,7 @@ This guide walks you through installing and configuring your Arch-based NAS on t
 
 ## Prerequisites
 
-- Dell Wyse 3040 with at least 2GB of RAM
+- Dell Wyse 3040 with at least 2GB of RAM 8GB of internal storage
 - External HDD (1TB+) for storage
 - A working internet connection
 
@@ -27,13 +27,87 @@ This repository includes:
 
 1. Boot the Dell Wyse using the official Arch Linux ISO.
 2. Connect to the internet via Ethernet or Wi-Fi.
-
+3. Set time and keyboard layout 
+```
+loadkeys pl
+```
+```
+timedatectl set-ntp true
+```
 ### Step 2: Prepare the Internal Storage
 
 Partition and format the internal drive (e.g., eMMC or SSD). Mount the root partition at `/mnt`.
 
-You can use tools like `cfdisk` or `parted` to manually partition the disk.
+I used `cfdisk`
+Check your disks labels
+```
+lsblk
+```
+My flash disk was named `mmcblk0`
+```
+cfdisk /dev/mmcblk0
+```
+- If prompted set `gpt`
+- Wipe everything and make 3 partitions
+- 512M [TYPE] EFI system
+- 512M [TYPE] Linux swap
+- rest [TYPE] Linux root (x86-64)
+- [WRITE] then `yes` to save changes
+- [QUIT]
 
+Format partitions
+```
+partprobe /dev/mmcblk0
+mkfs.fat /dev/mmcblk0p1
+mkswap /dev/mmcblk0p2
+mkfs.ext4 /dev/mmcblk0p3
+```
+Mount partitions
+```
+mount /dev/mmcblk0p3 /mnt
+swapon /dev/mmcblk0p2
+mount --mkdir /dev/mmcblk0p1 /mnt/boot
+```
+Now you can check `lsblk` if everything is in place
+
+### Step 3: Install base system
+
+```
+pacstrap -K /mnt base linux linux-firmware
+genfstab -U /mnt >> /mnt/etc/fstab
+arch-chroot /mnt
+```
+### Step 4: Install Bootloader
+Check if `/boot` partition is mounted
+```
+lsblk
+```
+If not 
+```
+mount /dev/mmcblk0p1 /boot
+```
+Check if EFI returns `64`
+```
+cat /sys/firmware/efi/fw_platform_size
+```
+If so you can install with code below
+```
+pacman -S grub efibootmgr
+grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
+grub-mkconfig -o /boot/grub/grub.cfg
+mkdir -p /boot/EFI/BOOT
+cp /boot/EFI/GRUB/grubx64.efi /boot/EFI/BOOT/BOOTX64.EFI
+efibootmgr --create --disk /dev/mmcblk0 --part 1 --label "ArchLinux" --loader /EFI/GRUB/grubx64.efi
+```
+```
+exit
+```
+```
+umount -R /mnt
+```
+```
+reboot
+```
 ### Step 3: Transfer Setup Files
 
 Clone this repository or copy the setup files to the target system:
