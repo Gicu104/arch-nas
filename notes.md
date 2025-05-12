@@ -132,3 +132,11 @@ pray for best
 ```
 reboot
 ```
+
+
+# After initial install
+upgrade
+```
+pacman -Sy
+```
+
