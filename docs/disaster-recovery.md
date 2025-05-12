@@ -51,15 +51,18 @@ This document outlines the recovery procedures in case of failure of critical co
 cfdisk /dev/mmcblk0
 # Create:
 # mmcblk0p1 – EFI System Partition (512MB, type EF00)
-# mmcblk0p2 – Root Partition (rest of the space, Linux filesystem)
+# mmcblk0p2 – Linux Swap partition (512MB, type swap)
+# mmcblk0p3 – Root Partition (rest of the space, Linux root / 64)
 ```
 2. Format and Mount
 ```
-mkfs.fat -F32 /dev/mmcblk0p1
-mkfs.ext4 /dev/mmcblk0p2
-mount /dev/mmcblk0p2 /mnt
-mkdir /mnt/boot
-mount /dev/mmcblk0p1 /mnt/boot
+partprobe /dev/mmcblk0
+mkfs.fat /dev/mmcblk0p1
+mkfs.ext4 /dev/mmcblk0p3
+mkswap /dev/mmcblk0p2
+mount /dev/mmcblk0p3 /mnt
+mount --mkdir /dev/mmcblk0p1 /mnt/boot
+swapon /dev/mmcblk0p2
 ```
 3. Pacstrap and Chroot
 ```
