@@ -110,6 +110,8 @@ You may also delete default `GRUB` boot option and keep only `ArchLinux` option 
 ```
 reboot
 ```
+Wyse should boot to Arch now
+
 ### Step 5: Transfer Setup Files
 
 Clone this repository or copy the setup files to the target system:
@@ -117,7 +119,6 @@ Clone this repository or copy the setup files to the target system:
 git clone https://github.com/Gicu104/arch-nas.git
 cd arch-nas/setup/
 ```
-
 Or use a USB stick or `scp` if you prefer.
 
 ### Step 6: Run the script
