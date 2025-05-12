@@ -105,6 +105,8 @@ exit
 ```
 umount -R /mnt
 ```
+Prepare for reboot, unplug usb if its firts boot option
+You may also delete default `GRUB` boot option and keep only `ArchLinux` option in BIOS setup (enter with `F2`) 
 ```
 reboot
 ```
