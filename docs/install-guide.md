@@ -108,7 +108,7 @@ umount -R /mnt
 ```
 reboot
 ```
-### Step 3: Transfer Setup Files
+### Step 5: Transfer Setup Files
 
 Clone this repository or copy the setup files to the target system:
 ```
@@ -118,7 +118,7 @@ cd arch-nas/setup/
 
 Or use a USB stick or `scp` if you prefer.
 
-### Step 4: Run the script
+### Step 6: Run the script
 
 From within the live Arch environment:
 
@@ -134,7 +134,7 @@ The script will:
 - Set up locale, time, and SSH
 - Prepare the system for headless operation
 
-### Step 5: Reboot and SSH in
+### Step 7: Reboot and SSH in
 
 Once done, reboot the machine and connect to it via SSH using the static IP defined in `config.conf`.
 ```
@@ -148,7 +148,7 @@ reboot
 - `config.conf` should **never** be committed with passwords or private keys.
 - All sensitive tasks (disk formatting, password setup, etc.) should be done manually for now.
 
-## Step 6: Install Syncthing nad Tailscale
+## Step 8: Install Syncthing nad Tailscale
 ```
 sudo pacman -S syncthing
 sudo systemctl enable syncthing
@@ -158,13 +158,9 @@ Follow Tailscale's installation guide for Arch Linux.
 
 Access Syncthing via the web UI (http://localhost:8384) and add your folders.
 
-## Step 7: Configure Folders and Syncthing Shares
+## Step 9: Configure Folders and Syncthing Shares
 
 After reboot and login:
 - Configure Syncthing folders based on your plan (`/mnt/data/syncthing/...`)
 - Use Tailscale to connect from outside your LAN
 - Test file syncing from PC/Android
-
-## License
-
-MIT — use and modify freely, just don't blame the author if it burns your house down.
