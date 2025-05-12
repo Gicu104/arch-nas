@@ -21,10 +21,30 @@ else
     passwd "$USERNAME"
 fi
 
+# Function to check if a package is installed
+is_package_installed() {
+    pacman -Q "$1" &>/dev/null
+}
 
+# Install essential packages if not already installed
+ESSENTIAL_PACKAGES=(
+    sudo
+    nano
+    git
+    bash-completion
+    man-db
+    man-pages
+    less
+)
 
-# Install essential packages
-pacman -S --noconfirm sudo nano git bash-completion man-db man-pages less
+for pkg in "${ESSENTIAL_PACKAGES[@]}"; do
+    if ! is_package_installed "$pkg"; then
+        echo "Installing $pkg..."
+        pacman -S --noconfirm "$pkg"
+    else
+        echo "$pkg is already installed."
+    fi
+done
 
 # Configure sudo
 if [[ "$SETUP_SUDO" == "yes" ]]; then
@@ -32,10 +52,11 @@ if [[ "$SETUP_SUDO" == "yes" ]]; then
     chmod 440 /etc/sudoers.d/99_wheel
 fi
 
-
-# Install network tools
-pacman -S --noconfirm networkmanager
-systemctl enable NetworkManager
+# Install network tools if not already installed
+if ! is_package_installed "networkmanager"; then
+    pacman -S --noconfirm networkmanager
+    systemctl enable NetworkManager
+fi
 
 # Configure static IP if requested
 if [[ "$USE_STATIC_IP" == "yes" ]]; then
@@ -43,7 +64,7 @@ if [[ "$USE_STATIC_IP" == "yes" ]]; then
 [connection]
 id=static
 type=ethernet
-interface-name=enp1s0
+interface-name=$INTERFACE_NAME
 autoconnect=true
 
 [ipv4]
@@ -59,9 +80,11 @@ EOF
     chmod 600 /etc/NetworkManager/system-connections/static.nmconnection
 fi
 
-# Set up SSH
-pacman -S --noconfirm openssh
-systemctl enable sshd
+# Install SSH if not already installed
+if ! is_package_installed "openssh"; then
+    pacman -S --noconfirm openssh
+    systemctl enable sshd
+fi
 if [[ "$DISABLE_ROOT_SSH" == "yes" ]]; then
     sed -i 's/^#PermitRootLogin yes/PermitRootLogin no/' /etc/ssh/sshd_config
 fi
@@ -93,13 +116,13 @@ if [[ -n "$HDD_UUID" ]]; then
     fi
 fi
 
-# Optional: Set up basic firewall with UFW
-if [[ "$SETUP_FIREWALL" == "yes" ]]; then
+# Install UFW if not already installed
+if [[ "$SETUP_FIREWALL" == "yes" ]] && ! is_package_installed "ufw"; then
     pacman -S --noconfirm ufw
     ufw default deny incoming
     ufw default allow outgoing
-    ufw allow OpenSSH  # allow SSH
-    ufw allow 8384     # allow Syncthing web UI if needed
+    ufw allow OpenSSH
+    ufw allow 8384
     ufw enable
 fi
 
