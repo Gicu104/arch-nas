@@ -73,7 +73,7 @@ Now you can check `lsblk` if everything is in place
 ### Step 3: Install base system
 
 ```
-pacstrap -K /mnt base linux linux-firmware
+pacstrap -K /mnt base linux linux-firmware networkmanager
 genfstab -U /mnt >> /mnt/etc/fstab
 arch-chroot /mnt
 ```
