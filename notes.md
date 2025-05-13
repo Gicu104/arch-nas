@@ -160,3 +160,10 @@ sudo shutdown -r now
 ```
 this should repair wyse behavior
 https://github.com/up-board/up-community/wiki/Ubuntu_20.04#hang-on-shutdown-or-reboot-for-up-board
+
+## configuring git token i wont share my token here thats why its added to global variable
+```
+echo 'export GITHUB_TOKEN="your_personal_access_token"' >> ~/.bashrc
+source ~/.bashrc
+```
+
