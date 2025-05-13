@@ -174,7 +174,8 @@ cd /root/my-pkglist
 pacman -Qqe > /root/my-pkglist/packages-list.txt
 git add packages-list.txt
 git commit -m "Update packages list"
-git push origin main
 
+# Push using the GitHub token stored in the environment variable
+git push https://$GITHUB_USERNAME:$GITHUB_TOKEN@github.com/$GITHUB_USERNAME/$GITHUB_REPO.git
 
 echo "Basic system setup completed. Reboot when ready."
