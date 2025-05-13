@@ -121,7 +121,7 @@ reboot
 Wyse should boot to Arch now
 
 ### Step 5: Transfer Setup Files
-
+## Log in to `root`
 Clone this repository or copy the setup files to the target system:
 ```
 git clone https://github.com/Gicu104/arch-nas.git
