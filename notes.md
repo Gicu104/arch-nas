@@ -172,3 +172,8 @@ restore with
 ```
 tar -xzvf /mnt/data/backup-configs/arch-config-backup_*.tar.gz -C /
 ```
+
+# setin up vpn
+```
+sudo pacman -S tailscale
+```
