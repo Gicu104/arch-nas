@@ -126,4 +126,17 @@ if [[ "$SETUP_FIREWALL" == "yes" ]] && ! is_package_installed "ufw"; then
     ufw enable
 fi
 
+# DMA kernel module workaround for reboot issues on Cherry Trail SoCs
+echo "Applying DMA blacklist workaround..."
+
+cat > /etc/modprobe.d/blacklist-dma.conf <<EOF
+blacklist dw_dmac_core
+install dw_dmac /bin/true
+install dw_dmac_core /bin/true
+EOF
+
+# Rebuild initramfs (use mkinitcpio on Arch)
+echo "Regenerating initramfs..."
+mkinitcpio -P
+
 echo "Basic system setup completed. Reboot when ready."
