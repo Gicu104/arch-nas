@@ -127,7 +127,7 @@ if [[ "$SETUP_FIREWALL" == "yes" ]] && ! is_package_installed "ufw"; then
 fi
 
 # DMA kernel module workaround for reboot issues on Cherry Trail SoCs
-if [[ "$REBOOT_FIX" == "yes" ]]
+if [[ "$REBOOT_FIX" == "yes" ]]; then
 echo "Applying DMA blacklist workaround..."
 
 cat > /etc/modprobe.d/blacklist-dma.conf <<EOF
