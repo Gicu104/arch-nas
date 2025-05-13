@@ -167,3 +167,8 @@ echo 'export GITHUB_TOKEN="your_personal_access_token"' >> ~/.bashrc
 source ~/.bashrc
 ```
 
+`backup-config.sh` script in ~/scripts
+restore with 
+```
+tar -xzvf /mnt/data/backup-configs/arch-config-backup_*.tar.gz -C /
+```
