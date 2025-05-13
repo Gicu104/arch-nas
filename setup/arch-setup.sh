@@ -164,7 +164,7 @@ if [[ "$UPLOAD_PKG_LIST" == "yes" ]]; then
     pacman -Qqe > ~/pkglist.txt
     
     # Clone or navigate to your Git repository
-    cd ~/my-pkglist || git clone git@github.com:Gicu104/arch-nas.git ~/my-pkglist
+    cd ~/my-pkglist || git clone https://github.com/Gicu104/arch-nas.git ~/my-pkglist
     cd ~/my-pkglist
     
     # Copy the package list
