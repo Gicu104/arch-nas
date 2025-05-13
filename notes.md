@@ -140,3 +140,23 @@ upgrade
 pacman -Sy
 ```
 
+reboot issues
+
+boot=acpi, pci, force, hard doesnt work
+try this
+```
+sudo nano /etc/modprobe.d/blacklist-dma.conf
+```
+```
+blacklist dw_dmac_core
+install dw_dmac /bin/true
+install dw_dmac_core /bin/true
+```
+```
+sudo mkinitcpio -P
+```
+```
+sudo shutdown -r now
+```
+this should repair wyse behavior
+https://github.com/up-board/up-community/wiki/Ubuntu_20.04#hang-on-shutdown-or-reboot-for-up-board
