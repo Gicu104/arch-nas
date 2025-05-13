@@ -158,22 +158,23 @@ echo "Regenerating initramfs..."
 mkinitcpio -P
 fi
 
-# Generate package list and push to Git
-if [[ "$UPLOAD_PKG_LIST" == "yes" ]]; then
-    # Generate the package list
-    pacman -Qqe > ~/pkglist.txt
-    
-    # Clone or navigate to your Git repository
-    cd ~/my-pkglist || git clone https://github.com/Gicu104/arch-nas.git ~/my-pkglist
-    cd ~/my-pkglist
-    
-    # Copy the package list
-    cp ~/pkglist.txt .
-    
-    # Commit and push the new package list
-    git add pkglist.txt
-    git commit -m "Update package list: $(date '+%Y-%m-%d')"
-    git push
+# Git Configuration
+git config --global user.name "$GITHUB_USERNAME"
+git config --global user.email "$GITHUB_EMAIL"
+git config --global init.defaultBranch main
+
+# Clone repository if it doesn't exist
+if [ ! -d "/root/my-pkglist" ]; then
+    echo "Cloning repository..."
+    git clone https://github.com/$GITHUB_USERNAME/$GITHUB_REPO.git /root/my-pkglist
 fi
+
+# Create packages list and push to GitHub
+cd /root/my-pkglist
+pacman -Qqe > /root/my-pkglist/packages-list.txt
+git add packages-list.txt
+git commit -m "Update packages list"
+git push origin main
+
 
 echo "Basic system setup completed. Reboot when ready."
