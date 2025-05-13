@@ -101,28 +101,36 @@ if [[ -n "$HDD_UUID" ]]; then
 
     if [[ "$SETUP_HDD" == "yes" ]]; then
         if [[ -n "$HDD_DEV" ]]; then
-            # Check if it's already in fstab
-            if ! grep -q "$HDD_UUID" /etc/fstab; then
-                # Check if the device already has a filesystem
-                if blkid "$HDD_DEV" | grep -q 'TYPE='; then
-                    echo "Filesystem already exists on $HDD_DEV. Skipping format."
-                else
-                    echo "Formatting $HDD_DEV as ext4..."
-                    mkfs.ext4 -F "$HDD_DEV"
-                fi
+            # Check if filesystem exists
+            if blkid "$HDD_DEV" | grep -q 'TYPE='; then
+                echo "Filesystem already exists on $HDD_DEV. Skipping format."
+            else
+                echo "Formatting $HDD_DEV as ext4..."
+                mkfs.ext4 -F "$HDD_DEV"
+            fi
 
-                echo "Mounting $HDD_DEV to /mnt/data..."
+            # Check if already in fstab
+            if ! grep -q "$HDD_UUID" /etc/fstab; then
+                echo "Adding UUID=$HDD_UUID to /etc/fstab..."
                 mkdir -p /mnt/data
                 echo "UUID=$HDD_UUID /mnt/data ext4 defaults,noatime 0 2" >> /etc/fstab
+            else
+                echo "UUID already present in /etc/fstab."
+            fi
+
+            # Check if already mounted
+            if ! mountpoint -q /mnt/data; then
+                echo "Mounting $HDD_DEV to /mnt/data..."
                 mount /mnt/data
             else
-                echo "UUID already in /etc/fstab. Skipping HDD setup."
+                echo "/mnt/data is already mounted."
             fi
         else
-            echo "Warning: No device found with UUID=$HDD_UUID."
+            echo "Warning: No device found with UUID=$HDD_UUID. Skipping HDD setup."
         fi
     fi
 fi
+
 
 
 # Install UFW if not already installed
