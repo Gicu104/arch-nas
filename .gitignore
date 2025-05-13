@@ -50,7 +50,9 @@ target/
 *.rej
 
 # === Custom ===
-backup/
+-backup/
++backup/
++!backup/backup-config.sh
 private-configs/
 tailscale-authkey.txt
 mobius-keys.json
