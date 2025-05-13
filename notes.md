@@ -177,3 +177,8 @@ tar -xzvf /mnt/data/backup-configs/arch-config-backup_*.tar.gz -C /
 ```
 sudo pacman -S tailscale
 ```
+```
+sudo systemctl enable --now tailscaled
+```
+visit
+https://login.tailscale.com/a/1e094a9501f8a7
