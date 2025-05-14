@@ -223,3 +223,12 @@ or when in lan
 set `Minimum Free Disk Space` to something like 10-15%
 set `GUI Authentication User` and password
 check `Use HTTPS for GUI`
+
+add your devices and folders
+
+backup your configs
+```
+sudo tar czvf /mnt/data/backup-configs/syncthing-config-backup_$(date +%F).tar.gz \ -C /home/gicu/.local/state syncthing
+```
+This creates a compressed backup like:
+`/mnt/data/backup-configs/syncthing-config-backup_2025-05-14.tar.gz`
