@@ -192,8 +192,12 @@ systemctl enable --now syncthing@"$USER"
 after sudo prompt u need to type password 3 times
 create folder and set permisions
 ```
-mkdir /mnt/data/syncthing
+sudo mkdir /mnt/data/syncthing
 sudo chown -R gicu:gicu /mnt/data/syncthing
+sudo mkdir -p /mnt/data/syncthing/{phone_android,phone_ios,cloudshare} \
+  && sudo chown -R gicu:gicu /mnt/data/syncthing \
+  && echo "📁 Folder structure created and permissions set."
+
 ```
 find config and edit it 
 ```
