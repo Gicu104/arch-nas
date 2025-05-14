@@ -3,7 +3,7 @@
 ## High Priority:
 
 ### Complete Arch Linux Installation
-- [ ] Install Arch on Wyse 3040
+- [x] Install Arch on Wyse 3040
 - [ ] Configure static IP
 - [ ] Setup SSH and key-based authentication
 - [ ] Enable networking & firewall rules
