@@ -10,11 +10,11 @@
 
 ### Configure and Run Setup Script
 - [x] Test `arch-setup.sh` for proper execution
-- [ ] Check all configuration paths in `config.conf`
+- [x] Check all configuration paths in `config.conf`
 - [x] Validate user creation and sudo setup
 - [x] Confirm automatic reboot after installation
 - [x] Confirm device reboots
-- [ ] 
+
 ### Install Syncthing
 - [ ] Install Syncthing and test functionality
 - [ ] Configure Syncthing with the necessary shared folders
