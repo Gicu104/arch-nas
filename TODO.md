@@ -16,7 +16,7 @@
 - [x] Confirm device reboots
 
 ### Install Syncthing
-- [ ] Install Syncthing and test functionality
+- [x] Install Syncthing and test functionality
 - [ ] Configure Syncthing with the necessary shared folders
 - [ ] Set up Syncthing’s web UI and verify sync operation
 
