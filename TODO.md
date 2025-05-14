@@ -17,8 +17,8 @@
 
 ### Install Syncthing
 - [x] Install Syncthing and test functionality
-- [ ] Configure Syncthing with the necessary shared folders
-- [ ] Set up Syncthing’s web UI and verify sync operation
+- [x] Configure Syncthing with the necessary shared folders
+- [x] Set up Syncthing’s web UI and verify sync operation
 
 ### Set Up Tailscale for Remote Access
 - [x] Install Tailscale on Wyse
