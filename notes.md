@@ -210,3 +210,7 @@ now you can connect from website
 or when in lan
 `192.168.104.201:8384`
 
+### In GUI
+set `Minimum Free Disk Space` to something like 10-15%
+set `GUI Authentication User` and password
+check `Use HTTPS for GUI`
