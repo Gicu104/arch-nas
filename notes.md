@@ -195,18 +195,18 @@ find config and edit it
 sudo nano /home/gicu/.local/state/syncthing/config.xml
 ```
 change
-<address>127.0.0.1:8384</address>
+`<address>127.0.0.1:8384</address>`
 
 to 
-<address>0.0.0.0:8384</address>
+`<address>0.0.0.0:8384</address>`
 
 then restart service
 ```
 systemctl restart syncthing@gicu
 ```
 now you can connect from website
-http://home-nas:8384/
+`http://home-nas:8384/`
 
 or when in lan
-192.168.104.201:8384
+`192.168.104.201:8384`
 
