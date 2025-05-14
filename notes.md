@@ -194,7 +194,7 @@ create folder and set permisions
 ```
 sudo mkdir /mnt/data/syncthing
 sudo chown -R gicu:gicu /mnt/data/syncthing
-sudo mkdir -p /mnt/data/syncthing/{phone_android,phone_ios,cloudshare} \
+sudo mkdir -p /mnt/data/syncthing/{phone_android,phone_ios,cloudshare,mediavault} \
   && sudo chown -R gicu:gicu /mnt/data/syncthing \
   && echo "📁 Folder structure created and permissions set."
 
