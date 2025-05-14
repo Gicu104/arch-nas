@@ -190,6 +190,11 @@ sudo pacman -S --noconfirm syncthing
 systemctl enable --now syncthing@"$USER"
 ```
 after sudo prompt u need to type password 3 times
+create folder and set permisions
+```
+mkdir /mnt/data/syncthing
+sudo chown -R gicu:gicu /mnt/data/syncthing
+```
 find config and edit it 
 ```
 sudo nano /home/gicu/.local/state/syncthing/config.xml
