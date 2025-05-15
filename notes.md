@@ -198,7 +198,8 @@ sudo mkdir -p /mnt/data/syncthing/{phone_android,phone_ios,cloudshare,mediavault
   && sudo chown -R gicu:gicu /mnt/data/syncthing \
   && echo "📁 Folder structure created and permissions set."
 ```
-and if you know your inner structure as well
+and if you know your inner structure as well,
+after every mkdir remeber to chown
 ```
 sudo mkdir -p /mnt/data/syncthing/phone_android/nothing-phone-3a/{Alarms,DCIM,Documents,Download,Movies,Music,Notifications,Pictures,Ringtones}
 ```
