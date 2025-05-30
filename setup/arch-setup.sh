@@ -35,6 +35,8 @@ ESSENTIAL_PACKAGES=(
     man-db
     man-pages
     less
+    rsync
+    cron
 )
 
 for pkg in "${ESSENTIAL_PACKAGES[@]}"; do
