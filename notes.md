@@ -172,3 +172,71 @@ restore with
 ```
 tar -xzvf /mnt/data/backup-configs/arch-config-backup_*.tar.gz -C /
 ```
+
+# setin up vpn
+```
+sudo pacman -S tailscale
+```
+```
+sudo systemctl enable --now tailscaled
+```
+visit
+https://login.tailscale.com/a/1e094a9501f8a7
+
+# Install syncthing
+
+```
+sudo pacman -S --noconfirm syncthing
+systemctl enable --now syncthing@"$USER"
+```
+after sudo prompt u need to type password 3 times
+create folder and set permisions
+```
+sudo mkdir /mnt/data/syncthing
+sudo chown -R gicu:gicu /mnt/data/syncthing
+sudo mkdir -p /mnt/data/syncthing/{phone_android,phone_ios,cloudshare,mediavault} \
+  && sudo chown -R gicu:gicu /mnt/data/syncthing \
+  && echo "📁 Folder structure created and permissions set."
+```
+and if you know your inner structure as well,
+after every mkdir remeber to chown
+```
+sudo mkdir -p /mnt/data/syncthing/phone_android/nothing-phone-3a/{Alarms,DCIM,Documents,Download,Movies,Music,Notifications,Pictures,Ringtones}
+```
+find config and edit it 
+```
+sudo nano /home/gicu/.local/state/syncthing/config.xml
+```
+change
+`<address>127.0.0.1:8384</address>`
+
+to 
+`<address>0.0.0.0:8384</address>`
+
+then restart service
+```
+systemctl restart syncthing@gicu
+```
+now you can connect from website
+`http://home-nas:8384/`
+
+or when in lan
+`192.168.104.201:8384`
+
+### In GUI
+set `Minimum Free Disk Space` to something like 10-15%
+set `GUI Authentication User` and password
+check `Use HTTPS for GUI`
+
+add your devices and folders
+
+backup your configs
+```
+sudo tar czvf /mnt/data/backup-configs/syncthing-config-backup_$(date +%F).tar.gz \ -C /home/gicu/.local/state syncthing
+```
+This creates a compressed backup like:
+`/mnt/data/backup-configs/syncthing-config-backup_2025-05-14.tar.gz`
+
+---
+# Installation done for now
+---

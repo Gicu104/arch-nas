@@ -3,26 +3,27 @@
 ## High Priority:
 
 ### Complete Arch Linux Installation
-- [ ] Install Arch on Wyse 3040
-- [ ] Configure static IP
-- [ ] Setup SSH and key-based authentication
-- [ ] Enable networking & firewall rules
+- [x] Install Arch on Wyse 3040
+- [x] Configure static IP
+- [x] Setup SSH and key-based authentication
+- [x] Enable networking & firewall rules
 
 ### Configure and Run Setup Script
-- [ ] Test `arch-setup.sh` for proper execution
-- [ ] Check all configuration paths in `config.conf`
-- [ ] Validate user creation and sudo setup
-- [ ] Confirm automatic reboot after installation
+- [x] Test `arch-setup.sh` for proper execution
+- [x] Check all configuration paths in `config.conf`
+- [x] Validate user creation and sudo setup
+- [x] Confirm automatic reboot after installation
+- [x] Confirm device reboots
 
 ### Install Syncthing
-- [ ] Install Syncthing and test functionality
-- [ ] Configure Syncthing with the necessary shared folders
-- [ ] Set up Syncthing’s web UI and verify sync operation
+- [x] Install Syncthing and test functionality
+- [x] Configure Syncthing with the necessary shared folders
+- [x] Set up Syncthing’s web UI and verify sync operation
 
 ### Set Up Tailscale for Remote Access
-- [ ] Install Tailscale on Wyse
-- [ ] Configure Tailscale for remote access
-- [ ] Test connectivity with devices outside local network
+- [x] Install Tailscale on Wyse
+- [x] Configure Tailscale for remote access
+- [x] Test connectivity with devices outside local network
 
 ## Medium Priority:
 

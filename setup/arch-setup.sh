@@ -158,6 +158,41 @@ echo "Regenerating initramfs..."
 mkinitcpio -P
 fi
 
+echo "Updateing system"
+pacman -Syu --noconfirm
+
+echo "Installing Syncthing"
+pacman -S --noconfirm syncthing tailscale
+systemctl enable --now syncthing@"$USER"
+
+CONFIG_PATH="/home/$USER/.local/state/syncthing/config.xml"
+
+# Wait or ensure config is generated
+if [[ -f "$CONFIG_PATH" && $SETUP_SYNC]]; then
+  echo "[*] Found Syncthing config, updating GUI address binding..."
+
+  # Replace 127.0.0.1 with 0.0.0.0
+  sed -i 's|<address>127\.0\.0\.1:8384</address>|<address>0.0.0.0:8384</address>|' "$CONFIG_PATH"
+
+  echo "[+] Address binding updated in config.xml"
+  systemctl restart syncthing@$USER
+else
+  echo "[!] Syncthing config not found at $CONFIG_PATH"
+fi
+if [[ "$SETUP_SYNC" == "yes" ]]; then
+echo "Provide password 3 times"
+mkdir /mnt/data/syncthing
+chown -R gicu:gicu /mnt/data/syncthing
+mkdir -p /mnt/data/syncthing/{phone_android,phone_ios,cloudshare,mediavault} \
+  && chown -R gicu:gicu /mnt/data/syncthing \
+  mkdir -p /mnt/data/syncthing/phone_android/nothing-phone-3a/{Alarms,DCIM,Documents,Download,Movies,Music,Notifications,Pictures,Ringtones}
+  && echo "📁 Folder structure created and permissions set."
+fi
+
+echo "Installing Tailscale"
+pacman -S  --noconfirm tailscale
+systemctl enable --now tailscaled
+
 # Git Configuration
 git config --global user.name "$GITHUB_USERNAME"
 git config --global user.email "$GITHUB_EMAIL"

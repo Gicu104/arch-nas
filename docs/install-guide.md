@@ -139,12 +139,20 @@ bash arch-setup.sh config.conf
 
 The script will:
 - Set the hostname
-- Create your main user and configure sudo
+- Create your main user, ask for new password and configure sudo
 - Install base packages and enable networking
 - Configure system with a static IP
 - Set up locale, time, and SSH
 - Prepare the system for headless operation
 - Set firewall rules
+- Fix reboot bug
+- Update system
+- Install Syncthing
+- Install Tailscale
+- Set git user
+- Save package list to txt
+  
+Any option can be disabled in `config.conf`
 
 ### Step 7: Reboot and SSH in
 
@@ -160,18 +168,12 @@ reboot
 - `config.conf` should **never** be committed with passwords or private keys.
 - All sensitive tasks (disk formatting, password setup, etc.) should be done manually for now.
 
-## Step 8: Install Syncthing nad Tailscale
-```
-sudo pacman -S syncthing
-sudo systemctl enable syncthing
-```
-
-Follow Tailscale's installation guide for Arch Linux.
-
-Access Syncthing via the web UI (http://localhost:8384) and add your folders.
+## Step 8: Finish setup Syncthing nad Tailscale
+Tailscale visit `https://login.tailscale.com/a/1e094a9501f8a7`
+It may be different when you install it so scroll up
+Access Syncthing via the web UI (`http://localhost:8384`) and add your folders.
 
 ## Step 9: Configure Folders and Syncthing Shares
-
 After reboot and login:
 - Configure Syncthing folders based on your plan (`/mnt/data/syncthing/...`)
 - Use Tailscale to connect from outside your LAN
