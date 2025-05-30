@@ -48,8 +48,6 @@ for pkg in "${ESSENTIAL_PACKAGES[@]}"; do
     fi
 done
 
-sudo systemctl enable --now cronie
-export EDITOR=/usr/bin/nano
 
 # Configure sudo
 if [[ "$SETUP_SUDO" == "yes" ]]; then
@@ -197,6 +195,12 @@ fi
 echo "Installing Tailscale"
 pacman -S  --noconfirm tailscale
 systemctl enable --now tailscaled
+
+echo "Configuring backups"
+sudo systemctl enable --now cronie
+export EDITOR=/usr/bin/nano
+chmod +x ~/arch-nas/scripts/rsync-backup.sh
+(crontab -l 2>/dev/null; echo "0 3 * * * ~/arch-nas/scripts/rsync-backup.sh >> /var/log/rsync-backup.log 2>&1") | crontab -
 
 # Git Configuration
 git config --global user.name "$GITHUB_USERNAME"
