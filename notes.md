@@ -236,3 +236,7 @@ sudo tar czvf /mnt/data/backup-configs/syncthing-config-backup_$(date +%F).tar.g
 ```
 This creates a compressed backup like:
 `/mnt/data/backup-configs/syncthing-config-backup_2025-05-14.tar.gz`
+
+---
+# Installation done for now
+---
