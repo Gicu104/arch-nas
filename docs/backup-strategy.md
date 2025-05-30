@@ -15,9 +15,13 @@ My goal is to ensure that all critical data is backed up to external locations a
 - Snapshot interval (daily)
 - Retention policy (7 days)
 - Tools used (**rsync**, **cron**)
-- Script is located at `home/gicu/scripts/rsync-backup.sh` and in repo in scripts
+- Script is pulled from repo to `~/arch-nas/scripts/rsync-backup.sh`
 - Logs are located at `/var/log/rsync-backup.log`
 - To restore data from 2025-06-01 snapshot:
 ```
 rsync -a /mnt/data/backup/snapshots/2025-06-01/ /mnt/data/syncthing/
 ```
+- cron is set to backup daily at 3:00
+
+### Final words
+Watch your backups. They are Schroddingers backups, they dont exist unless you look at them.
