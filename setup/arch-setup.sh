@@ -48,6 +48,8 @@ for pkg in "${ESSENTIAL_PACKAGES[@]}"; do
     fi
 done
 
+sudo systemctl enable --now cronie
+
 # Configure sudo
 if [[ "$SETUP_SUDO" == "yes" ]]; then
     echo "%wheel ALL=(ALL:ALL) ALL" > /etc/sudoers.d/99_wheel
