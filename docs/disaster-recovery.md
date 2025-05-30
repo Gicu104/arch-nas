@@ -1,7 +1,7 @@
 # Disaster Recovery Plan — Arch-NAS Fortress
 
-**Version:** 1.0  
-**Last Reviewed:** 12/05/2025
+**Version:** 1.1  
+**Last Reviewed:** 30/05/2025
 
 This document outlines the recovery procedures in case of failure of critical components in the Arch-NAS system. All steps are tested and tuned for Dell Wyse 3040 running headless Arch Linux.
 
@@ -45,25 +45,18 @@ Follow the standard installation process documented in [install-guide.md](./inst
 
 *Tip: Keep a bootable USB stick nearby with this repo and key config files.*
 
-
-
-## //this is mess, clean it later
-
-5. Post-Recovery: Syncthing
+## 5. Post-Recovery: Syncthing
 Access via http://<NAS-IP>:8384
 
 Re-approve devices
 
 Resync shared folders
 
-6. Post-Recovery: Tailscale
-```
-sudo pacman -S tailscale
-sudo tailscale up
-```
-Approve the node in your Tailscale admin panel
+## 6. Post-Recovery: Tailscale
 
-7. Validate System
+Approve the node in your Tailscale admin panel (mentioned in install script)
+
+## 7. Validate System
 Confirm SSH access via key
 
 Confirm static IP works
@@ -72,16 +65,16 @@ Test Syncthing sync
 
 Test Tailscale remote access
 
-Check mount: lsblk, mount | grep data
+Check mount: `lsblk`, `mount | grep data`
 
 8. Backup Reminder
 Backup critical files weekly to /mnt/data/backups
 
-Include config files, Syncthing IDs, and recovery steps
+Backup config files, Syncthing IDs, and recovery steps with `backup-config.sh`
 
-Consider syncing encrypted backups to cloud or second NAS
+Consider syncing encrypted backups to cloud or second NAS (TODO later)
 
-9. Final Words
+## 9. Final Words
 Your NAS is only as strong as its backups and documentation.
 Stay paranoid, stay Arch.
 

@@ -35,6 +35,8 @@ ESSENTIAL_PACKAGES=(
     man-db
     man-pages
     less
+    rsync
+    cronie
 )
 
 for pkg in "${ESSENTIAL_PACKAGES[@]}"; do
@@ -45,6 +47,9 @@ for pkg in "${ESSENTIAL_PACKAGES[@]}"; do
         echo "$pkg is already installed."
     fi
 done
+
+sudo systemctl enable --now cronie
+export EDITOR=/usr/bin/nano
 
 # Configure sudo
 if [[ "$SETUP_SUDO" == "yes" ]]; then
