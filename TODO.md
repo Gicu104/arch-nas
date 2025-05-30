@@ -39,7 +39,7 @@
 
 ### Documenting the Build
 - [ ] Refine `README.md` with all final details
-- [ ] Finalize `install-guide.md`
+- [x] Finalize `install-guide.md`
 - [ ] Ensure `backup-strategy.md` is complete and clear
 - [ ] Polish `monitoring.md` with useful tips
 
@@ -50,7 +50,7 @@
 - [ ] Optimize network configurations (if needed)
 
 ### Hardware Upgrades
-- [ ] Check if the Wyse 3040 supports additional RAM
+- [x] Check if the Wyse 3040 supports additional RAM
 - [ ] Consider adding more storage or upgrading existing HDD
 
 ### Long-term Improvements
