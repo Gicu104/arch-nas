@@ -28,9 +28,9 @@
 ## Medium Priority:
 
 ### System Backup Strategy
-- [ ] Set up backup locations on external HDD
-- [ ] Automate backups of Syncthing folders
-- [ ] Write backup script for critical data (perhaps rsync)
+- [x] Set up backup locations on external HDD
+- [x] Automate backups of Syncthing folders
+- [x] Write backup script for critical data (perhaps rsync)
 
 ### Testing and Monitoring
 - [ ] Install basic monitoring tools (e.g., `htop`, `smartmontools`)
