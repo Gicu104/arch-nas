@@ -139,12 +139,17 @@ bash arch-setup.sh config.conf
 
 The script will:
 - Set the hostname
-- Create your main user and configure sudo
+- Create your main user, ask for new password and configure sudo
 - Install base packages and enable networking
 - Configure system with a static IP
 - Set up locale, time, and SSH
 - Prepare the system for headless operation
 - Set firewall rules
+- Fix reboot bug
+- Set git user
+- Save package list to txt
+
+  Any option can be disabled in `config.conf`
 
 ### Step 7: Reboot and SSH in
 
