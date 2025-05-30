@@ -49,6 +49,7 @@ for pkg in "${ESSENTIAL_PACKAGES[@]}"; do
 done
 
 sudo systemctl enable --now cronie
+export EDITOR=/usr/bin/nano
 
 # Configure sudo
 if [[ "$SETUP_SUDO" == "yes" ]]; then
