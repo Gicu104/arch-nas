@@ -3,13 +3,15 @@ set -e
 
 # === 1. Ensure required packages are installed ===
 echo "[+] Checking required packages..."
-PKGS=(bc coreutils systemd)
+PKGS=(bc coreutils systemd htop lm_sensors vnstat bmon cronie smartmontools)
 for pkg in "${PKGS[@]}"; do
     if ! pacman -Q $pkg &>/dev/null; then
         echo "[+] Installing missing package: $pkg"
         sudo pacman -Sy --noconfirm $pkg
     fi
 done
+sudo systemctl enable --now vnstat
+sudo sensors-detect
 
 # === 2. Configuration: Define checks and intervals here ===
 CHECKS=(
