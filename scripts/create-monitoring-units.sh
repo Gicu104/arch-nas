@@ -13,9 +13,10 @@ done
 
 # === 2. Configuration: Define checks and intervals here ===
 CHECKS=(
-  "check-backup:3h"
+  "check-backup:1d"
   "check-disk:2h"
   "check-bandwidth:1d"
+  "check-syncthing:10min"
   "check-temp:30min"
 )
 
@@ -24,7 +25,7 @@ TARGET_DIR="/etc/systemd/system"
 for entry in "${CHECKS[@]}"; do
     NAME="${entry%%:*}"
     INTERVAL="${entry##*:}"
-    SCRIPT_PATH="/usr/local/bin/$NAME.sh"
+    SCRIPT_PATH="/arch-nas/scripts/monitoring/$NAME.sh"
 
     echo "[+] Creating files for $NAME (interval: $INTERVAL)"
 
