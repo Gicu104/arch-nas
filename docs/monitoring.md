@@ -16,7 +16,7 @@ systemctl status syncthing
 ---
 # Installation (service status for now)
 ```
-sudo pacman -S htop lm_sensors vnstat bmon cronie smartmontools
+sudo pacman -S htop lm_sensors vnstat bmon cronie smartmontools bc
 sudo systemctl enable --now vnstat
 sudo sensors-detect  # run and accept recommended
 ```
