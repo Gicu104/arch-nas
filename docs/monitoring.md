@@ -65,3 +65,4 @@ for LOG in /var/log/*-alert.log; do
   [ -s "$LOG" ] && echo "=== ALERTS from $(basename $LOG) ===" && tail -n 3 "$LOG"
 done
 ```
+do it for all `chack-*.sh`
