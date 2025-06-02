@@ -53,3 +53,16 @@ OnUnitActiveSec=10min
 [Install]
 WantedBy=timers.target
 ```
+enable timer 
+```
+sudo systemctl daemon-reexec
+sudo systemctl daemon-reload
+sudo systemctl enable --now check-syncthing.timer
+```
+Put in `.bash_profile` or `.bashrc`:
+```
+if [ -s /var/log/syncthing-alert.log ]; then
+    echo "=== ALERT LOG ==="
+    tail -n 5 /var/log/syncthing-alert.log
+fi
+```
