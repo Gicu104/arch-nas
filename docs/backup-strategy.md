@@ -17,9 +17,9 @@ My goal is to ensure that all critical data is backed up to external locations a
 - Tools used (**rsync**, **cron**)
 - Script is pulled from repo to `~/arch-nas/scripts/rsync-backup.sh`
 - Logs are located at `/var/log/rsync-backup.log`
-- To restore data from 2025-06-01 snapshot:
+- To restore data from snapshot (eg. cloudshare from 30/05/2025):
 ```
-rsync -a /mnt/data/backup/snapshots/2025-06-01/ /mnt/data/syncthing/
+rsync -a /mnt/data/backup/cloudshare/2025-05-30/ /mnt/data/syncthing/cloudshare/
 ```
 - cron is set to backup daily at 3:00
 
