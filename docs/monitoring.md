@@ -14,7 +14,7 @@ For now, monitoring will be done through basic tools, but the goal is to move to
 htop
 systemctl status syncthing
 ---
-# Installation
+# Installation (service status for now)
 ```
 sudo pacman -S htop lm_sensors vnstat bmon cronie smartmontools
 sudo systemctl enable --now vnstat
