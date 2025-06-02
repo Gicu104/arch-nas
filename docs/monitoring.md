@@ -61,8 +61,7 @@ sudo systemctl enable --now check-syncthing.timer
 ```
 Put in `.bash_profile` or `.bashrc`:
 ```
-if [ -s /var/log/syncthing-alert.log ]; then
-    echo "=== ALERT LOG ==="
-    tail -n 5 /var/log/syncthing-alert.log
-fi
+for LOG in /var/log/*-alert.log; do
+  [ -s "$LOG" ] && echo "=== ALERTS from $(basename $LOG) ===" && tail -n 3 "$LOG"
+done
 ```
