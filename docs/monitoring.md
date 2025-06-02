@@ -13,3 +13,43 @@ For now, monitoring will be done through basic tools, but the goal is to move to
 ### Check system health:
 htop
 systemctl status syncthing
+---
+# Installation
+```
+sudo pacman -S htop lm_sensors vnstat bmon cronie smartmontools
+sudo systemctl enable --now vnstat
+sudo sensors-detect  # run and accept recommended
+```
+script from git
+```
+#!/bin/bash
+if ! systemctl is-active --quiet syncthing@gicu; then
+    echo "Syncthing is down at $(date)" >> /var/log/syncthing-alert.log
+fi
+```
+Make it executable:
+```
+sudo chmod +x /arch-nas/scripts/check-syncthing.sh
+```
+Create systemd timer + service:
+`/etc/systemd/system/check-syncthing.service`
+```
+[Unit]
+Description=Check Syncthing Health
+
+[Service]
+Type=oneshot
+ExecStart=/arch-nas/scripts/check-syncthing.sh
+```
+`/etc/systemd/system/check-syncthing.timer`
+```
+[Unit]
+Description=Timer for Syncthing Health Check
+
+[Timer]
+OnBootSec=5min
+OnUnitActiveSec=10min
+
+[Install]
+WantedBy=timers.target
+```
