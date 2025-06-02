@@ -240,3 +240,11 @@ This creates a compressed backup like:
 ---
 # Installation done for now
 ---
+
+## Backup preping
+pull from git
+```
+sudo mkdir -p /mnt/data/backup/{phone_android,phone_ios,cloudshare,mediavault}
+sudo chown -R gicu:gicu /mnt/data/backup
+```
+
