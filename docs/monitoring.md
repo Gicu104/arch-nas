@@ -16,6 +16,7 @@ systemctl status syncthing
 ---
 # Installation (service status for now)
 Make exetutable and run `/arch-nas/scripts/create-monitoring-units.sh`
+
 Put in `.bash_profile` or `.bashrc`:
 ```
 for LOG in /var/log/*-alert.log; do
