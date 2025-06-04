@@ -38,7 +38,7 @@
 - [ ] Review server logs for errors
 
 ### Documenting the Build
-- [ ] Refine `README.md` with all final details
+- [x] Refine `README.md` with all final details
 - [x] Finalize `install-guide.md`
 - [ ] Ensure `backup-strategy.md` is complete and clear
 - [ ] Polish `monitoring.md` with useful tips
