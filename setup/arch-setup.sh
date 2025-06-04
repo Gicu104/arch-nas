@@ -37,6 +37,7 @@ ESSENTIAL_PACKAGES=(
     less
     rsync
     cronie
+    vi
 )
 
 for pkg in "${ESSENTIAL_PACKAGES[@]}"; do
