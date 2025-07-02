@@ -33,7 +33,7 @@ interval_to_cron() {
         1h) echo "0 * * * *" ;;        # every hour
         10min) echo "*/10 * * * *" ;;  # every 10 minutes
         30min) echo "*/30 * * * *" ;;  # every 30 minutes
-        at4) echo "0 4 * * * *" ;;  # daily at 4 am
+        at4) echo "0 4 * * *" ;;  # daily at 4 am
         *) echo "0 3 * * *" ;;         # fallback: daily at 3am
     esac
 }
@@ -63,7 +63,7 @@ EOF
     sed -i "\|$SCRIPT_PATH|d" "$TMP_CRON"
 
     # Add new cron job
-    echo "$CRON_SCHEDULE root $SCRIPT_PATH" | sudo tee -a "$TMP_CRON" > /dev/null
+    echo "$CRON_SCHEDULE $SCRIPT_PATH" | sudo tee -a "$TMP_CRON" > /dev/null
 
     echo "[✓] Cron job for $NAME ($INTERVAL): $CRON_SCHEDULE"
 done
