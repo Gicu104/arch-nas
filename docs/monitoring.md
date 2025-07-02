@@ -57,6 +57,11 @@ These cron jobs will execute the health-check scripts as root.
 
 Any previous duplicate cron entries are removed automatically.
 
+To access and/or modify them use higher privilage:
+```
+sudo crontab -e
+```
+
 ### 4. Logging & Alerts
 
 You can monitor for alerts from health-check scripts by adding the following snippet to your `~/.bash_profile` or `~/.bashrc` to display the latest alerts at login:
