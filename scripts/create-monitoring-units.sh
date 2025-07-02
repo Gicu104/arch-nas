@@ -15,64 +15,60 @@ sudo sensors-detect
 
 # === 2. Configuration: Define checks and intervals here ===
 CHECKS=(
-  "check-backup:1d"
+  "check-backup:at4"
   "check-disk:2h"
   "check-bandwidth:1d"
   "check-syncthing:10min"
   "check-temp:30min"
 )
 
-TARGET_DIR="/etc/systemd/system"
+SCRIPTS_DIR="/arch-nas/scripts/monitoring"
+
+# Helper: convert interval string to cron schedule
+interval_to_cron() {
+    local interval="$1"
+    case "$interval" in
+        1d) echo "0 2 * * *" ;;        # daily at 2am
+        2h) echo "0 */2 * * *" ;;      # every 2 hours
+        1h) echo "0 * * * *" ;;        # every hour
+        10min) echo "*/10 * * * *" ;;  # every 10 minutes
+        30min) echo "*/30 * * * *" ;;  # every 30 minutes
+        at4) echo "0 4 * * * *" ;;  # daily at 4 am
+        *) echo "0 3 * * *" ;;         # fallback: daily at 3am
+    esac
+}
+
+echo "[+] Creating script stubs and cron jobs..."
+
+TMP_CRON="$(mktemp)"
+sudo crontab -l > "$TMP_CRON" 2>/dev/null || true
 
 for entry in "${CHECKS[@]}"; do
     NAME="${entry%%:*}"
     INTERVAL="${entry##*:}"
-    SCRIPT_PATH="/arch-nas/scripts/monitoring/$NAME.sh"
+    SCRIPT_PATH="$SCRIPTS_DIR/$NAME.sh"
 
-    echo "[+] Creating files for $NAME (interval: $INTERVAL)"
-
-    # === Service ===
-    sudo tee "$TARGET_DIR/$NAME.service" > /dev/null <<EOF
-[Unit]
-Description=$NAME monitoring task
-
-[Service]
-Type=oneshot
-ExecStart=$SCRIPT_PATH
-EOF
-
-    # === Timer ===
-    sudo tee "$TARGET_DIR/$NAME.timer" > /dev/null <<EOF
-[Unit]
-Description=Timer for $NAME
-
-[Timer]
-OnBootSec=5min
-OnUnitActiveSec=$INTERVAL
-Persistent=true
-
-[Install]
-WantedBy=timers.target
-EOF
-
-    # === Script Stub ===
+    # Create stub if missing
     if [ ! -f "$SCRIPT_PATH" ]; then
-      sudo tee "$SCRIPT_PATH" > /dev/null <<EOF
+        sudo tee "$SCRIPT_PATH" > /dev/null <<EOF
 #!/bin/bash
 echo "[$(date)] $NAME executed"
 EOF
-      sudo chmod +x "$SCRIPT_PATH"
+        sudo chmod +x "$SCRIPT_PATH"
     fi
 
-    echo "[✓] Created $NAME.{service,timer}, script stub at $SCRIPT_PATH"
+    CRON_SCHEDULE=$(interval_to_cron "$INTERVAL")
+
+    # Remove previous duplicate cron jobs
+    sed -i "\|$SCRIPT_PATH|d" "$TMP_CRON"
+
+    # Add new cron job
+    echo "$CRON_SCHEDULE root $SCRIPT_PATH" | sudo tee -a "$TMP_CRON" > /dev/null
+
+    echo "[✓] Cron job for $NAME ($INTERVAL): $CRON_SCHEDULE"
 done
 
-echo "[+] Enabling and starting timers..."
-for entry in "${CHECKS[@]}"; do
-    NAME="${entry%%:*}"
-    sudo systemctl daemon-reexec
-    sudo systemctl daemon-reload
-    sudo systemctl enable --now "$NAME.timer"
-done
+sudo crontab "$TMP_CRON"
+rm "$TMP_CRON"
 
-echo "[✓] All monitoring units deployed and running."
+echo "[✓] All monitoring cron jobs deployed and running."
