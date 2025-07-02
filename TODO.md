@@ -31,17 +31,18 @@
 - [x] Set up backup locations on external HDD
 - [x] Automate backups of Syncthing folders
 - [x] Write backup script for critical data (perhaps rsync)
+- [ ] Test backup recovery
 
 ### Testing and Monitoring
-- [ ] Install basic monitoring tools (e.g., `htop`, `smartmontools`)
-- [ ] Set up a system for checking disk health and performance
-- [ ] Review server logs for errors
+- [x] Install basic monitoring tools (e.g., `htop`, `smartmontools`)
+- [x] Set up a system for checking disk health and performance
+- [x] Review server logs for errors
 
 ### Documenting the Build
 - [x] Refine `README.md` with all final details
 - [x] Finalize `install-guide.md`
 - [ ] Ensure `backup-strategy.md` is complete and clear
-- [ ] Polish `monitoring.md` with useful tips
+- [x] Polish `monitoring.md` with useful tips
 
 ## Low Priority:
 
