@@ -199,7 +199,13 @@ systemctl enable --now tailscaled
 
 echo "Configuring backups"
 sudo systemctl enable --now cronie
+# set nano as default editor
 export EDITOR=/usr/bin/nano
+export EDITOR=nano
+echo 'export EDITOR=nano' >> ~/.bashrc
+echo 'export EDITOR=nano' >> ~/.bash_profile
+echo 'export EDITOR=nano' >> ~/.profile
+
 chmod +x ~/arch-nas/scripts/rsync-backup.sh
 (crontab -l 2>/dev/null; echo "0 3 * * * ~/arch-nas/scripts/rsync-backup.sh >> /var/log/rsync-backup.log 2>&1") | crontab -
 
