@@ -31,7 +31,7 @@
 - [x] Set up backup locations on external HDD
 - [x] Automate backups of Syncthing folders
 - [x] Write backup script for critical data (perhaps rsync)
-- [ ] Test backup recovery
+- [x] Test backup recovery
 
 ### Testing and Monitoring
 - [x] Install basic monitoring tools (e.g., `htop`, `smartmontools`)
