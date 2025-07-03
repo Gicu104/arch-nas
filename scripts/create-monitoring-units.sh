@@ -37,6 +37,9 @@ interval_to_cron() {
         *) echo "0 3 * * *" ;;         # fallback: daily at 3am
     esac
 }
+echo "[+] Creating logs folder structure..."
+sudo mkdir -p /var/log/{backup,alerts,net}
+sudo chown gicu:gicu /var/log/{backup,alerts,net}
 
 echo "[+] Creating script stubs and cron jobs..."
 
