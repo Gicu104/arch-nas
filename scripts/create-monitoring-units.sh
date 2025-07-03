@@ -15,7 +15,7 @@ sudo sensors-detect
 
 # === 2. Configuration: Define checks and intervals here ===
 CHECKS=(
-  "check-backup:at4"
+  "check-backup:at5"
   "check-disk:2h"
   "check-bandwidth:1d"
   "check-syncthing:10min"
@@ -33,7 +33,7 @@ interval_to_cron() {
         1h) echo "0 * * * *" ;;        # every hour
         10min) echo "*/10 * * * *" ;;  # every 10 minutes
         30min) echo "*/30 * * * *" ;;  # every 30 minutes
-        at4) echo "0 4 * * *" ;;  # daily at 4 am
+        at5) echo "0 5 * * *" ;;  # daily at 4 am
         *) echo "0 3 * * *" ;;         # fallback: daily at 3am
     esac
 }
