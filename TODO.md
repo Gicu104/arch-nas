@@ -41,7 +41,7 @@
 ### Documenting the Build
 - [x] Refine `README.md` with all final details
 - [x] Finalize `install-guide.md`
-- [ ] Ensure `backup-strategy.md` is complete and clear
+- [x] Ensure `backup-strategy.md` is complete and clear
 - [x] Polish `monitoring.md` with useful tips
 
 ## Low Priority:
