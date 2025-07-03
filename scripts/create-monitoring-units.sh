@@ -22,7 +22,7 @@ CHECKS=(
   "check-temp:30min"
 )
 
-SCRIPTS_DIR="/arch-nas/scripts/monitoring"
+SCRIPTS_DIR="/home/gicu/arch-nas/scripts/monitoring"
 
 # Helper: convert interval string to cron schedule
 interval_to_cron() {
