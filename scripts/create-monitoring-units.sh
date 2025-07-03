@@ -33,7 +33,7 @@ interval_to_cron() {
         1h) echo "0 * * * *" ;;        # every hour
         10min) echo "*/10 * * * *" ;;  # every 10 minutes
         30min) echo "*/30 * * * *" ;;  # every 30 minutes
-        at5) echo "0 5 * * *" ;;  # daily at 4 am
+        at5) echo "0 5 * * *" ;;  # daily at 5 am
         *) echo "0 3 * * *" ;;         # fallback: daily at 3am
     esac
 }
