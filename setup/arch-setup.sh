@@ -206,8 +206,8 @@ echo 'export EDITOR=nano' >> ~/.bashrc
 echo 'export EDITOR=nano' >> ~/.bash_profile
 echo 'export EDITOR=nano' >> ~/.profile
 
-chmod +x ~/arch-nas/scripts/rsync-backup.sh
-(crontab -l 2>/dev/null; echo "0 3 * * * ~/arch-nas/scripts/rsync-backup.sh >> /var/log/rsync-backup.log 2>&1") | crontab -
+chmod +x /home/gicu/arch-nas/scripts/rsync-backup.sh
+(crontab -l 2>/dev/null; echo "0 1 * * * /home/gicu/arch-nas/scripts/rsync-backup.sh >> /home/gicu/log/rsync-backup.log 2>&1") | crontab -
 
 # Git Configuration
 git config --global user.name "$GITHUB_USERNAME"
