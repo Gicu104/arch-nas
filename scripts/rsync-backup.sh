@@ -31,3 +31,6 @@ for folder in "${FOLDERS[@]}"; do
 done
 
 echo "[✓] All backups completed for $TODAY"
+
+rm  "$BACKUP_ROOT/backup-success-*"
+touch "$BACKUP_ROOT/backup-success-$TODAY"
