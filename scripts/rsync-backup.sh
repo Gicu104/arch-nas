@@ -19,6 +19,12 @@ for folder in "${FOLDERS[@]}"; do
 
     rsync -a --delete "$SRC_PATH/" "$DEST_PATH/"
 
+    if [ -z "$(ls -A "$DEST_PATH")" ]; then
+        echo "  ↪ [!] No files copied for $folder, backup is empty."
+    else
+        echo "  ↪ Backup for $folder completed."
+    fi
+
     echo "  ↪ Rotating snapshots in /$folder"
     cd "$BACKUP_ROOT/$folder"
     ls -1t | tail -n +$((MAX_SNAPSHOTS + 1)) | xargs -r rm -rf
