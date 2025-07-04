@@ -67,7 +67,7 @@ sudo crontab -e
 You can monitor for alerts from health-check scripts by adding the following snippet to your `~/.bash_profile` or `~/.bashrc` to display the latest alerts at login:
 
 ```bash
-for LOG in /var/log/*-alert.log; do
+for LOG in /var/log/alerts/*-alert.log; do
   [ -s "$LOG" ] && echo "=== ALERTS from $(basename $LOG) ===" && tail -n 3 "$LOG"
 done
 ```
@@ -86,7 +86,7 @@ sudo nano .bashrc
 ```
 Add this at the end of file:
 ```bash
-for LOG in /var/log/*-alert.log; do
+for LOG in /var/log/alerts/*-alert.log; do
   [ -s "$LOG" ] && echo "=== ALERTS from $(basename $LOG) ===" && tail -n 3 "$LOG"
 done
 ```
