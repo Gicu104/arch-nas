@@ -1,0 +1,24 @@
+﻿#!/bin/bash
+set -e
+
+dirname=$(dirname "$0")
+source "$dirname/../config.conf"
+
+# Git Configuration
+git config --global user.name "$GITHUB_USERNAME"
+git config --global user.email "$GITHUB_EMAIL"
+git config --global init.defaultBranch main
+
+# Clone repository if it doesn't exist
+if [ ! -d "/home/$USERNAME/my-pkglist" ]; then
+    echo "Cloning repository..."
+    git clone https://github.com/$GITHUB_USERNAME/$GITHUB_REPO.git /home/$USERNAME/my-pkglist
+fi
+
+# Create packages list and push to GitHub
+cd /home/$USERNAME/my-pkglist
+pacman -Qqe > packages-list.txt
+git add packages-list.txt
+git commit -m "Update packages list" || true
+# Push using the GitHub token stored in the environment variable
+git push https://$GITHUB_USERNAME:$GITHUB_TOKEN@github.com/$GITHUB_USERNAME/$GITHUB_REPO.git || true

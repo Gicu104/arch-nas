@@ -25,6 +25,9 @@ Thumbs.db
 secrets/
 id_*
 
+# === Visual Studio ===
+*.vsidx
+
 # === Syncthing ===
 .syncthing/*
 

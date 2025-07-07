@@ -4,229 +4,25 @@ set -e
 # Load config
 source ./config.conf
 
-# Set hostname
-echo "$HOSTNAME" > /etc/hostname
-echo "127.0.0.1 localhost" >> /etc/hosts
-echo "::1       localhost" >> /etc/hosts
-echo "127.0.1.1 $HOSTNAME.localdomain $HOSTNAME" >> /etc/hosts
+# 1. System setup (run as root)
+bash ./scripts/01-system-setup.sh
 
-# Create user if not exists
-if id "$USERNAME" &>/dev/null; then
-    echo "User $USERNAME already exists. Skipping creation."
-else
-    useradd -m -G wheel "$USERNAME"
-    echo "Change root password"
-    passwd
-    echo "Change $USERNAME password"
-    passwd "$USERNAME"
+# 2. Clone repo to user home, remove from root if exists
+if [ ! -d "/home/$USERNAME/arch-nas" ]; then
+    sudo -u "$USERNAME" git clone https://github.com/Gicu104/arch-nas "/home/$USERNAME/arch-nas"
 fi
 
-# Function to check if a package is installed
-is_package_installed() {
-    pacman -Q "$1" &>/dev/null
-}
+# 3. Syncthing, Tailscale, backup, etc. (run as user)
+sudo -u "$USERNAME" bash ./scripts/02-syncthing-setup.sh
 
-# Install essential packages if not already installed
-ESSENTIAL_PACKAGES=(
-    sudo
-    nano
-    git
-    bash-completion
-    man-db
-    man-pages
-    less
-    rsync
-    cronie
-    vi
-)
+# 4. Git setup and package list (run as user)
+sudo -u "$USERNAME" bash ./scripts/03-git-setup.sh
 
-for pkg in "${ESSENTIAL_PACKAGES[@]}"; do
-    if ! is_package_installed "$pkg"; then
-        echo "Installing $pkg..."
-        pacman -S --noconfirm "$pkg"
-    else
-        echo "$pkg is already installed."
-    fi
-done
+# 5. Monitoring units (run as user)
+sudo -u "$USERNAME" bash ./scripts/create-monitoring-units.sh
 
-
-# Configure sudo
-if [[ "$SETUP_SUDO" == "yes" ]]; then
-    echo "%wheel ALL=(ALL:ALL) ALL" > /etc/sudoers.d/99_wheel
-    chmod 440 /etc/sudoers.d/99_wheel
+if [ -d "/root/arch-nas" ]; then
+    rm -rf /root/arch-nas
 fi
 
-# Install network tools if not already installed
-if ! is_package_installed "networkmanager"; then
-    pacman -S --noconfirm networkmanager
-    systemctl enable NetworkManager
-fi
-
-# Configure static IP if requested
-if [[ "$USE_STATIC_IP" == "yes" ]]; then
-    cat > /etc/NetworkManager/system-connections/static.nmconnection <<EOF
-[connection]
-id=static
-type=ethernet
-interface-name=$INTERFACE_NAME
-autoconnect=true
-
-[ipv4]
-method=manual
-addresses=${STATIC_IP}/${SUBNET_MASK}
-gateway=${GATEWAY}
-dns=${DNS};
-ignore-auto-dns=true
-
-[ipv6]
-method=ignore
-EOF
-    chmod 600 /etc/NetworkManager/system-connections/static.nmconnection
-fi
-
-# Install SSH if not already installed
-if ! is_package_installed "openssh"; then
-    pacman -S --noconfirm openssh
-    systemctl enable sshd
-fi
-if [[ "$DISABLE_ROOT_SSH" == "yes" ]]; then
-    sed -i 's/^#PermitRootLogin yes/PermitRootLogin no/' /etc/ssh/sshd_config
-fi
-if [[ -f "$SSH_KEY_PATH" ]]; then
-    mkdir -p "/home/$USERNAME/.ssh"
-    cp "$SSH_KEY_PATH" "/home/$USERNAME/.ssh/authorized_keys"
-    chown -R "$USERNAME:$USERNAME" "/home/$USERNAME/.ssh"
-    chmod 700 "/home/$USERNAME/.ssh"
-    chmod 600 "/home/$USERNAME/.ssh/authorized_keys"
-fi
-# Format and mount HDD if UUID is specified and not yet in fstab
-if [[ -n "$HDD_UUID" ]]; then
-    HDD_DEV=$(blkid -U "$HDD_UUID" || true)
-
-    if [[ "$SETUP_HDD" == "yes" ]]; then
-        if [[ -n "$HDD_DEV" ]]; then
-            # Check if filesystem exists
-            if blkid "$HDD_DEV" | grep -q 'TYPE='; then
-                echo "Filesystem already exists on $HDD_DEV. Skipping format."
-            else
-                echo "Formatting $HDD_DEV as ext4..."
-                mkfs.ext4 -F "$HDD_DEV"
-            fi
-
-            # Check if already in fstab
-            if ! grep -q "$HDD_UUID" /etc/fstab; then
-                echo "Adding UUID=$HDD_UUID to /etc/fstab..."
-                mkdir -p /mnt/data
-                echo "UUID=$HDD_UUID /mnt/data ext4 defaults,noatime 0 2" >> /etc/fstab
-            else
-                echo "UUID already present in /etc/fstab."
-            fi
-
-            # Check if already mounted
-            if ! mountpoint -q /mnt/data; then
-                echo "Mounting $HDD_DEV to /mnt/data..."
-                mount /mnt/data
-            else
-                echo "/mnt/data is already mounted."
-            fi
-        else
-            echo "Warning: No device found with UUID=$HDD_UUID. Skipping HDD setup."
-        fi
-    fi
-fi
-
-
-
-# Install UFW if not already installed
-if [[ "$SETUP_FIREWALL" == "yes" ]] && ! is_package_installed "ufw"; then
-    pacman -S --noconfirm ufw
-    ufw default deny incoming
-    ufw default allow outgoing
-    ufw allow OpenSSH
-    ufw allow 8384
-    ufw enable
-fi
-
-# DMA kernel module workaround for reboot issues on Cherry Trail SoCs
-if [[ "$REBOOT_FIX" == "yes" ]]; then
-echo "Applying DMA blacklist workaround..."
-
-cat > /etc/modprobe.d/blacklist-dma.conf <<EOF
-blacklist dw_dmac_core
-install dw_dmac /bin/true
-install dw_dmac_core /bin/true
-EOF
-
-# Rebuild initramfs (use mkinitcpio on Arch)
-echo "Regenerating initramfs..."
-mkinitcpio -P
-fi
-
-echo "Updateing system"
-pacman -Syu --noconfirm
-
-echo "Installing Syncthing"
-pacman -S --noconfirm syncthing tailscale
-systemctl enable --now syncthing@"$USER"
-
-CONFIG_PATH="/home/$USER/.local/state/syncthing/config.xml"
-
-# Wait or ensure config is generated
-if [[ -f "$CONFIG_PATH" && $SETUP_SYNC]]; then
-  echo "[*] Found Syncthing config, updating GUI address binding..."
-
-  # Replace 127.0.0.1 with 0.0.0.0
-  sed -i 's|<address>127\.0\.0\.1:8384</address>|<address>0.0.0.0:8384</address>|' "$CONFIG_PATH"
-
-  echo "[+] Address binding updated in config.xml"
-  systemctl restart syncthing@$USER
-else
-  echo "[!] Syncthing config not found at $CONFIG_PATH"
-fi
-if [[ "$SETUP_SYNC" == "yes" ]]; then
-echo "Provide password 3 times"
-mkdir /mnt/data/syncthing
-chown -R gicu:gicu /mnt/data/syncthing
-mkdir -p /mnt/data/syncthing/{phone_android,phone_ios,cloudshare,mediavault} \
-  && chown -R gicu:gicu /mnt/data/syncthing \
-  mkdir -p /mnt/data/syncthing/phone_android/nothing-phone-3a/{Alarms,DCIM,Documents,Download,Movies,Music,Notifications,Pictures,Ringtones}
-  && echo "📁 Folder structure created and permissions set."
-fi
-
-echo "Installing Tailscale"
-pacman -S  --noconfirm tailscale
-systemctl enable --now tailscaled
-
-echo "Configuring backups"
-sudo systemctl enable --now cronie
-# set nano as default editor
-export EDITOR=/usr/bin/nano
-export EDITOR=nano
-echo 'export EDITOR=nano' >> ~/.bashrc
-echo 'export EDITOR=nano' >> ~/.bash_profile
-echo 'export EDITOR=nano' >> ~/.profile
-
-chmod +x /home/gicu/arch-nas/scripts/rsync-backup.sh
-(crontab -l 2>/dev/null; echo "0 1 * * * /home/gicu/arch-nas/scripts/rsync-backup.sh >> /var/log/backup/rsync-backup.log 2>&1") | crontab -
-
-# Git Configuration
-git config --global user.name "$GITHUB_USERNAME"
-git config --global user.email "$GITHUB_EMAIL"
-git config --global init.defaultBranch main
-
-# Clone repository if it doesn't exist
-if [ ! -d "/root/my-pkglist" ]; then
-    echo "Cloning repository..."
-    git clone https://github.com/$GITHUB_USERNAME/$GITHUB_REPO.git /root/my-pkglist
-fi
-
-# Create packages list and push to GitHub
-cd /root/my-pkglist
-pacman -Qqe > /root/my-pkglist/packages-list.txt
-git add packages-list.txt
-git commit -m "Update packages list"
-
-# Push using the GitHub token stored in the environment variable
-git push https://$GITHUB_USERNAME:$GITHUB_TOKEN@github.com/$GITHUB_USERNAME/$GITHUB_REPO.git
-
-echo "Basic system setup completed. Reboot when ready."
+echo "All setup scripts completed. Reboot when ready."
