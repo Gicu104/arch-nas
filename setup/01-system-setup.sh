@@ -155,3 +155,5 @@ fi
 
 # System update
 pacman -Syu --noconfirm
+
+(crontab -l 2>/dev/null; echo "0 23 * * * /bin/bash /home/gicu/arch-nas/scripts/check-for-updates >> /var/log/check-for-updates.log 2>&1") | crontab -
