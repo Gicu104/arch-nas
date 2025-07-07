@@ -27,6 +27,7 @@ id_*
 
 # === Visual Studio ===
 *.vsidx
+.vs
 
 # === Syncthing ===
 .syncthing/*
