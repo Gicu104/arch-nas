@@ -11,6 +11,9 @@ bash ./scripts/01-system-setup.sh
 if [ ! -d "/home/$USERNAME/arch-nas" ]; then
     sudo -u "$USERNAME" git clone https://github.com/Gicu104/arch-nas "/home/$USERNAME/arch-nas"
 fi
+chmod +x /home/$USERNAME/arch-nas/scripts/*.sh
+chmod +x /home/$USERNAME/arch-nas/scriptsmonitoring/*.sh
+chmod +x /home/$USERNAME/arch-nas/setup/*.sh
 
 # 3. Syncthing, Tailscale, backup, etc. (run as user)
 sudo -u "$USERNAME" bash ./02-syncthing-setup.sh
