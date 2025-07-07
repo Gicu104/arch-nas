@@ -16,8 +16,6 @@ if id "$USERNAME" &>/dev/null; then
     echo "User $USERNAME already exists. Skipping creation."
 else
     useradd -m -G wheel "$USERNAME"
-    echo "Change root password"
-    passwd
     echo "Change $USERNAME password"
     passwd "$USERNAME"
 fi

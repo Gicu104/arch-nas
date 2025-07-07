@@ -13,13 +13,13 @@ if [ ! -d "/home/$USERNAME/arch-nas" ]; then
 fi
 
 # 3. Syncthing, Tailscale, backup, etc. (run as user)
-sudo -u "$USERNAME" bash ./scripts/02-syncthing-setup.sh
+sudo -u "$USERNAME" bash ./02-syncthing-setup.sh
 
 # 4. Git setup and package list (run as user)
-sudo -u "$USERNAME" bash ./scripts/03-git-setup.sh
+sudo -u "$USERNAME" bash ./03-git-setup.sh
 
 # 5. Monitoring units (run as user)
-sudo -u "$USERNAME" bash ./scripts/create-monitoring-units.sh
+sudo -u "$USERNAME" bash ./create-monitoring-units.sh
 
 if [ -d "/root/arch-nas" ]; then
     rm -rf /root/arch-nas
