@@ -32,5 +32,4 @@ done
 
 echo "[✓] All backups completed for $TODAY"
 
-rm  "$BACKUP_ROOT/backup-success-*"
-touch "$BACKUP_ROOT/backup-success-$TODAY"
+touch "$BACKUP_ROOT/last-successfull-backup"
