@@ -248,3 +248,12 @@ sudo mkdir -p /mnt/data/backup/{phone_android,phone_ios,cloudshare,mediavault}
 sudo chown -R gicu:gicu /mnt/data/backup
 ```
 
+## update script
+had some issues with nvidia (?) firmware and did this
+```
+sudo pacman -Rdd linux-firmware
+sudo pacman -Syu
+gpgconf --kill all
+sudo pacman -S linux-firmware
+```
+made changes to log updates to home
