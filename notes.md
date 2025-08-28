@@ -257,3 +257,15 @@ gpgconf --kill all
 sudo pacman -S linux-firmware
 ```
 made changes to log updates to home
+
+## Usb suspend troubleshooting
+
+after smartctl i did this
+```
+# find the device path (look for "1-3" matching your dmesg)
+ls -d /sys/bus/usb/devices/* | xargs -I{} sh -c '[[ -r {}/idVendor && -r {}/idProduct ]] && \
+  if [[ $(cat {}/idVendor) == 0bda && $(cat {}/idProduct) == 9201 ]]; then echo on | sudo tee {}/power/control; fi'
+
+```
+returned `on` so i think its working
+is supouse to disable USB autosuspend for bridge
