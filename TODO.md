@@ -2,6 +2,14 @@
 
 ## High Priority:
 
+### Post mature polishes
+- [ ] List all configs
+- [ ] Backu all configs
+- [ ] Restore configs backup
+- [ ] Delete/default some configs for test
+- [ ] Restore again
+- [ ] Plow system
+
 ### Complete Arch Linux Installation
 - [x] Install Arch on Wyse 3040
 - [x] Configure static IP
