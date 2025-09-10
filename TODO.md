@@ -10,6 +10,11 @@
 - [ ] Restore again
 - [ ] Plow system
 
+### Storage optimalization
+- [ ] Make room for tinkers
+- [ ] Change backup script
+- [ ] Test space reqs
+
 ### Complete Arch Linux Installation
 - [x] Install Arch on Wyse 3040
 - [x] Configure static IP
