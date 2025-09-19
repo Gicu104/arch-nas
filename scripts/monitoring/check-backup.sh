@@ -1,5 +1,6 @@
-SNAPSHOT_DIR="/mnt/data/backup/cloudshare/$(date +%F)*"
+today=$(date +%F)
+directory="/mnt/data/backup/cloudshare"
 
-if [ ! -d "$SNAPSHOT_DIR" ]; then
-  echo "[ALERT] Backup missing for $(date +%F) at $(date)" >> /var/log/alerts/backup-alert.log
+if ! ls "$directory" | grep -q "^$today"; then
+  echo "[ALERT] Backup missing for $(date +%F)" >> /var/log/alerts/backup-alert.log
 fi
