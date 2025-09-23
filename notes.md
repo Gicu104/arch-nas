@@ -268,7 +268,11 @@ ls -d /sys/bus/usb/devices/* | xargs -I{} sh -c '[[ -r {}/idVendor && -r {}/idPr
 
 ```
 returned `on` so i think its working
+
 is supouse to disable USB autosuspend for bridge
 
 ### Update 
 server is not booting or network doesnt work
+---
+config with local host is not replacing on setup script but its adding etries
+
