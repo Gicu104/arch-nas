@@ -46,7 +46,7 @@ for folder in "${FOLDERS[@]}"; do
     cd "$DEST_DIR"
 
     # Find full backups, newest first
-    FULL_BACKUPS=( $(ls -1dt *-FULL 2>/dev/null || true) )
+    FULL_BACKUPS=( $(ls -1d *-FULL 2>/dev/null | sort -r || true) )
     
     if [ ${#FULL_BACKUPS[@]} -gt 2 ]; then
         echo "    ↪ Keeping 2 newest full backups: ${FULL_BACKUPS[0]} and ${FULL_BACKUPS[1]}"
@@ -59,7 +59,7 @@ for folder in "${FOLDERS[@]}"; do
     fi
     
     # After cleanup, find the oldest full backup that remains
-    FULL_BACKUPS=( $(ls -1dt *-FULL 2>/dev/null || true) )
+    FULL_BACKUPS=( $(ls -1d *-FULL 2>/dev/null | sort -r || true) )
     if [ ${#FULL_BACKUPS[@]} -gt 0 ]; then
         OLDEST_FULL="${FULL_BACKUPS[-1]}"
         OLDEST_DATE=$(echo "$OLDEST_FULL" | cut -d- -f1-3)
