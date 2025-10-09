@@ -13,13 +13,13 @@ My goal is to ensure that all critical data is backed up to external locations a
 # Actual backup done
 - Structure of backups (mirrored + snapshots)
 - Snapshot interval (daily)
-- Retention policy (7 days)
+- Retention policy (14 days)
 - Tools used (**rsync**, **cron**)
 - Script is pulled from repo to `~/arch-nas/scripts/rsync-backup.sh`
-- Logs are located at `/var/log/rsync-backup.log`
+- Logs are located at `/var/log/backup/rsync-backup.log`
 - To restore data from snapshot (eg. cloudshare from 30/05/2025):
 ```
-rsync -a /mnt/data/backup/cloudshare/2025-05-30/ /mnt/data/syncthing/cloudshare/
+rsync -a /mnt/data/backup/cloudshare/2025-05-30*/ /mnt/data/syncthing/cloudshare/
 ```
 - cron is set to backup daily at 3:00
 
