@@ -11,8 +11,8 @@
 - [ ] Plow system
 
 ### Storage optimalization
-- [ ] Make room for tinkers
-- [ ] Change backup script
+- [x] Make room for tinkers
+- [x] Change backup script
 - [ ] Test space reqs
 
 ### Complete Arch Linux Installation
