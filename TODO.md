@@ -3,7 +3,8 @@
 ## High Priority:
 
 ### Post mature polishes
-- [ ] List all configs
+- [x] List all configs
+- [ ] Verify all configs
 - [ ] Backu all configs
 - [ ] Restore configs backup
 - [ ] Delete/default some configs for test
